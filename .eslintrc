@@ -1,0 +1,28 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "parserOptions":{
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "plugins": [
+    "babel",
+    "flow-vars"
+  ],
+  "rules": {
+    "flow-vars/define-flow-type": 1,
+    "flow-vars/use-flow-type": 1,
+    "babel/generator-star-spacing": 1,
+    "babel/new-cap": 1,
+    "babel/array-bracket-spacing": 1,
+    "babel/object-shorthand": 1,
+    "babel/arrow-parens": 1,
+    "babel/no-await-in-loop": 0,
+    "babel/func-params-comma-dangle": 1,
+    "no-param-reassign": ["error", { "props": false }],
+    "no-use-before-define": 0,
+    "react/sort-comp": 0,
+    "newline-per-chained-call": 0,
+  }
+}

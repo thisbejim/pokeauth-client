@@ -1,0 +1,109 @@
+{
+  "rules": {
+    "tokens": {
+      "tasks": {
+        ".indexOn": "_state",
+        "$task": {
+          ".write": "$task === auth.uid",
+          ".read": "$task === auth.uid",
+          "userName": {
+            ".validate": "newData.isString()"
+          },
+          "email": {
+            ".validate": "newData.isString()"
+          },
+          "password": {
+            ".validate": "newData.isString()"
+          },
+          "provider": {
+            ".validate": "newData.val() === 'google' || newData.val() === 'ptc'"
+          },
+          "uid": {
+            ".validate": "newData.val() === auth.uid && newData.isString()"
+          }
+        }
+      }
+    },
+    "refresh": {
+      ".write": false,
+      ".read": false,
+      "tasks": {
+        ".indexOn": "_state"
+      }
+    },
+    "removeUser": {
+      "tasks": {
+        ".indexOn": "_state",
+        "$task": {
+          ".write": "$task === auth.uid",
+          ".read": false
+        }
+      }
+    },
+    "admins": {
+      ".read": true,
+      ".write": false
+    },
+    "pubKey": {
+      ".read": true,
+      ".write": false
+    },
+    "blacklist": {
+      ".read": "root.child('admins').hasChild(auth.uid)",
+      ".write": "root.child('admins').hasChild(auth.uid)"
+    },
+    "applications": {
+      "$applicantId": {
+        ".read": "root.child('admins').hasChild(auth.uid)",
+        ".write": "$applicantId === auth.uid && !data.exists() || root.child('admins').hasChild(auth.uid)",
+        "callbackUrl": {
+          ".validate": "!root.child('blacklist').hasChild(newData.val())"
+        },
+        "uid": {
+          ".validate": "!root.child('blacklist').hasChild(auth.uid)"
+        }
+      }
+    },
+    "developers": {
+      ".read": "true",
+      "$developerId": {
+        ".write": "$developerId === auth.uid",
+        "callbackUrl": {
+          ".validate": "!root.child('blacklist').hasChild(newData.val()) && newData.isString() && newData.val().matches(/^(ht|f)tp(s?):\\/\\/[0-9a-zA-Z]([-.\\w]*[0-9a-zA-Z])*((0-9)*)*(\\/?)([a-zA-Z0-9\\-\\.\\?\\,\\'\\/\\\\+&=%\\$#_]*)?$/)"
+        },
+        "serviceName": {
+          ".validate": "newData.isString()"
+        },
+        "serviceDescription": {
+          ".validate": "newData.isString()"
+        },
+        "uid": {
+          ".validate": "newData.val() === $developerId && newData.isString()"
+        },
+        "localCallback": {
+          ".validate": "newData.isString()"
+        },
+        "production": {
+          ".validate": "newData.isBoolean()"
+        }
+      }
+    },
+    "users": {
+      "$userId": {
+        ".write": "$userId === auth.uid",
+        "access": {
+          ".read": "$userId === auth.uid || data.parent().child('approved').hasChild(auth.uid)"
+        },
+        "error": {
+          ".read": "$userId === auth.uid"
+        },
+        "approved": {
+          ".read": "$userId === auth.uid"
+        },
+        "uid": {
+          ".read": "$userId === auth.uid"
+        }
+      }
+    }
+  }
+}

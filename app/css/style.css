@@ -1,0 +1,25 @@
+/* Remove user agent styling */
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+}
+
+h1 {
+  color: #78909c;
+  font-weight: 400;
+  font-size: 56px;
+}
+
+h2 {
+  color: rgba(0,0,0,0.7);
+  font-size: 20px;
+}
+
+p {
+  font-size: 16x;
+}
+
+img {
+  vertical-align: middle;
+}
